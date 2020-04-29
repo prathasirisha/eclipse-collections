@@ -82,7 +82,7 @@ Eclipse software repository location: http://download.eclipse.org/collections/10
 We welcome contributions! We accept contributions via pull requests here in GitHub. Please see [How To Contribute](CONTRIBUTING.md) to get started.
 
 
-## Additional information
+## Additional useful information 
 
 * Project Website: http://www.eclipse.org/collections
 * Eclipse PMI: https://projects.eclipse.org/projects/technology.collections
