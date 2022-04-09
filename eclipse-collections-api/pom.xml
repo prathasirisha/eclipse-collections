@@ -50,6 +50,7 @@
                         </goals>
                         <configuration>
                             <templateDirectory>api</templateDirectory>
+                            <outputDirectory>${project.build.directory}/generated-sources/java</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>

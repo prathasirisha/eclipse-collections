@@ -24,10 +24,10 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
         requiresDependencyResolution = ResolutionScope.COMPILE)
 public class GenerateSourcesMojo extends AbstractGenerateMojo
 {
-    @Parameter(property = "templateDirectory", required = true)
+    @Parameter(property = "templateDirectory", required = true, defaultValue = "impl")
     private String templateDirectory;
 
-    @Parameter(property = "outputDirectory", defaultValue = "${project.build.directory}/generated-sources/java", required = true)
+    @Parameter(property = "outputDirectory", defaultValue = "${project.parent.basedir}/eclipse-collections-primitive/target/generated-sources/java", required = true)
     private File outputDirectory;
 
     @Override

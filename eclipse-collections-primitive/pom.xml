@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
-  ~ Copyright (c) 2022 Goldman Sachs and others.
+  ~ Copyright (c) 2021 The Bank of New York Mellon.
   ~ All rights reserved. This program and the accompanying materials
   ~ are made available under the terms of the Eclipse Public License v1.0
   ~ and Eclipse Distribution License v. 1.0 which accompany this distribution.
@@ -10,28 +9,24 @@
   ~ http://www.eclipse.org/org/documents/edl-v10.php.
   -->
 
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>eclipse-collections-parent</artifactId>
         <groupId>org.eclipse.collections</groupId>
         <version>11.1.0-SNAPSHOT</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>eclipse-collections</artifactId>
+    <artifactId>eclipse-collections-primitive</artifactId>
     <packaging>jar</packaging>
 
-    <name>Eclipse Collections Main Library</name>
+    <name>Eclipse Collections Primitive Library</name>
 
     <properties>
-        <sonar.jacoco.reportPaths>
-            ../unit-tests/target/jacoco.exec,../unit-tests-java8/target/jacoco.exec,../eclipse-collections-testutils/target/jacoco.exec,../serialization-tests/target/jacoco.exec
-        </sonar.jacoco.reportPaths>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -42,8 +37,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.eclipse.collections</groupId>
+            <artifactId>eclipse-collections</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
-
     <build>
 
         <plugins>
@@ -54,43 +53,26 @@
                 <version>${project.version}</version>
                 <executions>
                     <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate-services</goal>
+                        </goals>
+                        <id>generate-services</id>
+                    </execution>
+
+                    <execution>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>generate-sources</goal>
                         </goals>
                         <id>generate-sources</id>
                         <configuration>
-                            <templateDirectory>iterable</templateDirectory>
-                            <outputDirectory>${project.build.directory}/generated-sources/java</outputDirectory>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate-sources</goal>
-                        </goals>
-                        <id>generate-sources-tuple</id>
-                        <configuration>
-                            <templateDirectory>tuple</templateDirectory>
-                            <outputDirectory>${project.build.directory}/generated-sources/java</outputDirectory>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate-sources</goal>
-                        </goals>
-                        <id>generate-sources-comparator</id>
-                        <configuration>
-                            <templateDirectory>comparator</templateDirectory>
+                            <templateDirectory>impl</templateDirectory>
                             <outputDirectory>${project.build.directory}/generated-sources/java</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
@@ -125,8 +107,8 @@
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <doctitle>Eclipse Collections - ${project.version}</doctitle>
-                    <windowtitle>Eclipse Collections - ${project.version}</windowtitle>
+                    <doctitle>Eclipse Collections Primtive - ${project.version}</doctitle>
+                    <windowtitle>Eclipse Collections Primitive - ${project.version}</windowtitle>
                     <show>public</show>
                     <links>
                         <link>https://docs.oracle.com/javase/8/docs/api/</link>
@@ -138,21 +120,6 @@
 
             <plugin>
                 <artifactId>maven-enforcer-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>clirr-maven-plugin</artifactId>
-                <configuration>
-                    <comparisonArtifacts>
-                        <comparisonArtifact>
-                            <groupId>org.eclipse.collections</groupId>
-                            <artifactId>eclipse-collections</artifactId>
-                            <version>${project.previous.version}</version>
-                        </comparisonArtifact>
-                    </comparisonArtifacts>
-                    <textOutputFile>${project.build.directory}/clirr.txt</textOutputFile>
-                </configuration>
             </plugin>
 
         </plugins>

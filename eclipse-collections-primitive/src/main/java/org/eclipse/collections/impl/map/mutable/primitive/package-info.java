@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Goldman Sachs.
+ * Copyright (c) 2022 Goldman Sachs and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompany this distribution.
@@ -9,8 +9,8 @@
  */
 
 /**
- * This package contains implementations of immutable primitive list interfaces and immutable primitive list factory interfaces.
+ * This package contains implementations of the mutable primitive-primitive, primitive-object and object-primitive map interfaces.
  * <p>
- *     An {@link org.eclipse.collections.api.list.primitive.ImmutableIntList} is the non-modifiable equivalent interface of {@link org.eclipse.collections.api.list.primitive.MutableIntList}.
+ *     A mutable primitive map is similar to a {@link org.eclipse.collections.api.map.MutableMap}, but is memory-optimized for primitives.
  */
-package org.eclipse.collections.impl.list.immutable.primitive;
+package org.eclipse.collections.impl.map.mutable.primitive;

@@ -22,6 +22,7 @@
         <module name="serialization-tests" />
         <module name="unit-tests-java8" />
         <module name="eclipse-collections-forkjoin" />
+        <module name="eclipse-collections-primitive" />
       </profile>
       <profile name="Annotation profile for Eclipse Collections Parent Project" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -44,6 +45,7 @@
       <module name="eclipse-collections-code-generator-maven-plugin" target="1.8" />
       <module name="eclipse-collections-forkjoin" target="1.8" />
       <module name="eclipse-collections-parent" target="1.8" />
+      <module name="eclipse-collections-primitive" target="1.8" />
       <module name="eclipse-collections-testutils" target="1.8" />
       <module name="jcstress-tests" target="1.8" />
       <module name="jmh-scala-tests" target="1.8" />

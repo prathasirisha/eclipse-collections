@@ -19,7 +19,7 @@ import org.eclipse.collections.api.LazyIterable;
 import org.eclipse.collections.api.block.function.primitive.<name>ToObjectFunction;
 import org.eclipse.collections.api.block.predicate.primitive.<name>Predicate;
 import org.eclipse.collections.api.block.procedure.primitive.<name>Procedure;
-import org.eclipse.collections.impl.factory.primitive.<name>Lists;
+import org.eclipse.collections.api.factory.primitive.<name>Lists;
 import org.eclipse.collections.impl.lazy.primitive.Collect<name>ToObjectIterable;
 import org.eclipse.collections.impl.lazy.primitive.FlatCollect<name>ToObjectIterable;
 import org.eclipse.collections.impl.lazy.primitive.Lazy<name>IterableAdapter;

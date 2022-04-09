@@ -103,6 +103,7 @@
         <module>eclipse-collections-code-generator-maven-plugin</module>
         <module>eclipse-collections-api</module>
         <module>eclipse-collections</module>
+        <module>eclipse-collections-primitive</module>
         <module>eclipse-collections-testutils</module>
         <module>eclipse-collections-forkjoin</module>
         <module>unit-tests</module>

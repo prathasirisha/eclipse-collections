@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Goldman Sachs.
+ * Copyright (c) 2022 Goldman Sachs and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompany this distribution.
@@ -8,15 +8,10 @@
  * http://www.eclipse.org/org/documents/edl-v10.php.
  */
 
-package org.eclipse.collections.impl.map.mutable.primitive;
-
-public abstract class AbstractSentinelValues
-{
-    protected boolean containsZeroKey;
-    protected boolean containsOneKey;
-
-    public int size()
-    {
-        return (this.containsZeroKey ? 1 : 0) + (this.containsOneKey ? 1 : 0);
-    }
-}
+/**
+ * This package contains implementations of the mutable primitive set interfaces.
+ * <p>
+ *     Primitive Set is similar to {@link org.eclipse.collections.api.set.MutableSet} that is memory-optimized for primitives.
+ *     HashTables are used for performance optimization.
+ */
+package org.eclipse.collections.impl.set.mutable.primitive;

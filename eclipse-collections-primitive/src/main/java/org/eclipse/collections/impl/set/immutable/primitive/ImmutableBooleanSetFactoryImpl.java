@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Goldman Sachs.
+ * Copyright (c) 2022 Goldman Sachs and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompany this distribution.
@@ -27,7 +27,7 @@ public class ImmutableBooleanSetFactoryImpl implements ImmutableBooleanSetFactor
     @Override
     public ImmutableBooleanSet empty()
     {
-        return ImmutableBooleanEmptySet.INSTANCE;
+        return org.eclipse.collections.impl.set.immutable.primitive.ImmutableBooleanEmptySet.INSTANCE;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ImmutableBooleanSetFactoryImpl implements ImmutableBooleanSetFactor
         {
             return this.with(items[0]);
         }
-        ImmutableBooleanSet result = ImmutableBooleanEmptySet.INSTANCE;
+        ImmutableBooleanSet result = org.eclipse.collections.impl.set.immutable.primitive.ImmutableBooleanEmptySet.INSTANCE;
         for (boolean item : items)
         {
             result = result.newWith(item);

@@ -48,6 +48,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.eclipse.collections</groupId>
+            <artifactId>eclipse-collections-primitive</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- External dependencies -->
 
         <dependency>

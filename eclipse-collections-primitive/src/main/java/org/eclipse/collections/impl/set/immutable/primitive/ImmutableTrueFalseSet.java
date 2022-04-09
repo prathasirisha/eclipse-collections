@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Goldman Sachs.
+ * Copyright (c) 2022 Goldman Sachs and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompany this distribution.
@@ -37,11 +37,11 @@ import org.eclipse.collections.api.tuple.primitive.BooleanBooleanPair;
 import org.eclipse.collections.impl.factory.primitive.BooleanSets;
 import org.eclipse.collections.impl.lazy.primitive.LazyBooleanIterableAdapter;
 
-final class ImmutableFalseSet implements ImmutableBooleanSet, Serializable
+final class ImmutableTrueFalseSet implements ImmutableBooleanSet, Serializable
 {
-    static final ImmutableBooleanSet INSTANCE = new ImmutableFalseSet();
+    static final ImmutableBooleanSet INSTANCE = new ImmutableTrueFalseSet();
 
-    private ImmutableFalseSet()
+    private ImmutableTrueFalseSet()
     {
         // Singleton
     }
@@ -49,13 +49,13 @@ final class ImmutableFalseSet implements ImmutableBooleanSet, Serializable
     @Override
     public ImmutableBooleanSet newWith(boolean element)
     {
-        return element ? ImmutableTrueFalseSet.INSTANCE : this;
+        return ImmutableTrueFalseSet.INSTANCE;
     }
 
     @Override
     public ImmutableBooleanSet newWithout(boolean element)
     {
-        return element ? this : ImmutableBooleanEmptySet.INSTANCE;
+        return element ? org.eclipse.collections.impl.set.immutable.primitive.ImmutableFalseSet.INSTANCE : ImmutableTrueSet.INSTANCE;
     }
 
     @Override
@@ -73,13 +73,19 @@ final class ImmutableFalseSet implements ImmutableBooleanSet, Serializable
     @Override
     public ImmutableBooleanSet newWithoutAll(BooleanIterable elements)
     {
-        return elements.contains(false) ? ImmutableBooleanEmptySet.INSTANCE : this;
+        ImmutableBooleanSet result = this;
+        BooleanIterator booleanIterator = elements.booleanIterator();
+        while (booleanIterator.hasNext())
+        {
+            result = result.newWithout(booleanIterator.next());
+        }
+        return result;
     }
 
     @Override
     public BooleanIterator booleanIterator()
     {
-        return new FalseIterator();
+        return new FalseTrueIterator();
     }
 
     @Override
@@ -95,12 +101,13 @@ final class ImmutableFalseSet implements ImmutableBooleanSet, Serializable
     public void each(BooleanProcedure procedure)
     {
         procedure.value(false);
+        procedure.value(true);
     }
 
     @Override
     public <T> T injectInto(T injectedValue, ObjectBooleanToObjectFunction<? super T, ? extends T> function)
     {
-        return function.valueOf(injectedValue, false);
+        return function.valueOf(function.valueOf(injectedValue, false), true);
     }
 
     @Override
@@ -110,73 +117,103 @@ final class ImmutableFalseSet implements ImmutableBooleanSet, Serializable
         {
             throw new IllegalArgumentException("Size for groups must be positive but was: " + size);
         }
+        if (size == 1)
+        {
+            return Lists.immutable.with(BooleanSets.immutable.with(false), BooleanSets.immutable.with(true));
+        }
         return Lists.immutable.with(this);
     }
 
     @Override
     public int count(BooleanPredicate predicate)
     {
-        return predicate.accept(false) ? 1 : 0;
+        int count = 0;
+        if (predicate.accept(false))
+        {
+            count++;
+        }
+        if (predicate.accept(true))
+        {
+            count++;
+        }
+        return count;
     }
 
     @Override
     public boolean anySatisfy(BooleanPredicate predicate)
     {
-        return predicate.accept(false);
+        return predicate.accept(false) || predicate.accept(true);
     }
 
     @Override
     public boolean allSatisfy(BooleanPredicate predicate)
     {
-        return predicate.accept(false);
+        return predicate.accept(false) && predicate.accept(true);
     }
 
     @Override
     public boolean noneSatisfy(BooleanPredicate predicate)
     {
-        return !predicate.accept(false);
+        return !predicate.accept(false) && !predicate.accept(true);
     }
 
     @Override
     public ImmutableBooleanSet select(BooleanPredicate predicate)
     {
-        return predicate.accept(false) ? this : ImmutableBooleanEmptySet.INSTANCE;
+        if (predicate.accept(true))
+        {
+            return predicate.accept(false) ? this : ImmutableTrueSet.INSTANCE;
+        }
+        return predicate.accept(false) ? org.eclipse.collections.impl.set.immutable.primitive.ImmutableFalseSet.INSTANCE : org.eclipse.collections.impl.set.immutable.primitive.ImmutableBooleanEmptySet.INSTANCE;
     }
 
     @Override
     public ImmutableBooleanSet reject(BooleanPredicate predicate)
     {
-        return predicate.accept(false) ? ImmutableBooleanEmptySet.INSTANCE : this;
+        if (predicate.accept(true))
+        {
+            return predicate.accept(false) ? org.eclipse.collections.impl.set.immutable.primitive.ImmutableBooleanEmptySet.INSTANCE : org.eclipse.collections.impl.set.immutable.primitive.ImmutableFalseSet.INSTANCE;
+        }
+        return predicate.accept(false) ? ImmutableTrueSet.INSTANCE : this;
     }
 
     @Override
     public boolean detectIfNone(BooleanPredicate predicate, boolean ifNone)
     {
-        return !predicate.accept(false) && ifNone;
+        if (predicate.accept(false))
+        {
+            return false;
+        }
+        if (predicate.accept(true))
+        {
+            return true;
+        }
+        return ifNone;
     }
 
     @Override
     public <V> ImmutableSet<V> collect(BooleanToObjectFunction<? extends V> function)
     {
-        return Sets.immutable.with(function.valueOf(false));
+        return Sets.immutable.with(function.valueOf(false), function.valueOf(true));
     }
 
     @Override
     public boolean[] toArray()
     {
-        return new boolean[]{false};
+        return new boolean[]{false, true};
     }
 
     @Override
     public boolean[] toArray(boolean[] target)
     {
-        if (target.length < 1)
+        if (target.length < 2)
         {
-            target = new boolean[]{false};
+            target = new boolean[]{false, true};
         }
         else
         {
             target[0] = false;
+            target[1] = true;
         }
         return target;
     }
@@ -184,32 +221,18 @@ final class ImmutableFalseSet implements ImmutableBooleanSet, Serializable
     @Override
     public boolean contains(boolean value)
     {
-        return !value;
+        return true;
     }
 
     @Override
     public boolean containsAll(boolean... source)
     {
-        for (boolean item : source)
-        {
-            if (item)
-            {
-                return false;
-            }
-        }
         return true;
     }
 
     @Override
     public boolean containsAll(BooleanIterable source)
     {
-        for (BooleanIterator iterator = source.booleanIterator(); iterator.hasNext(); )
-        {
-            if (iterator.next())
-            {
-                return false;
-            }
-        }
         return true;
     }
 
@@ -228,7 +251,7 @@ final class ImmutableFalseSet implements ImmutableBooleanSet, Serializable
     @Override
     public int size()
     {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -264,37 +287,37 @@ final class ImmutableFalseSet implements ImmutableBooleanSet, Serializable
         }
 
         BooleanSet other = (BooleanSet) obj;
-        return other.contains(false) && !other.contains(true);
+        return other.contains(false) && other.contains(true);
     }
 
     @Override
     public int hashCode()
     {
-        return 1237;
+        return 2468;
     }
 
     @Override
     public String toString()
     {
-        return "[false]";
+        return "[false, true]";
     }
 
     @Override
     public String makeString()
     {
-        return "false";
+        return "false, true";
     }
 
     @Override
     public String makeString(String separator)
     {
-        return "false";
+        return "false" + separator + "true";
     }
 
     @Override
     public String makeString(String start, String separator, String end)
     {
-        return start + "false" + end;
+        return start + "false" + separator + "true" + end;
     }
 
     @Override
@@ -302,7 +325,7 @@ final class ImmutableFalseSet implements ImmutableBooleanSet, Serializable
     {
         try
         {
-            appendable.append("false");
+            appendable.append("false, true");
         }
         catch (IOException e)
         {
@@ -316,6 +339,8 @@ final class ImmutableFalseSet implements ImmutableBooleanSet, Serializable
         try
         {
             appendable.append("false");
+            appendable.append(separator);
+            appendable.append("true");
         }
         catch (IOException e)
         {
@@ -330,6 +355,8 @@ final class ImmutableFalseSet implements ImmutableBooleanSet, Serializable
         {
             appendable.append(start);
             appendable.append("false");
+            appendable.append(separator);
+            appendable.append("true");
             appendable.append(end);
         }
         catch (IOException e)
@@ -362,25 +389,30 @@ final class ImmutableFalseSet implements ImmutableBooleanSet, Serializable
         return new LazyBooleanIterableAdapter(this);
     }
 
-    private static final class FalseIterator implements BooleanIterator
+    private static final class FalseTrueIterator implements BooleanIterator
     {
         private int currentIndex;
 
         @Override
         public boolean next()
         {
-            if (this.currentIndex == 0)
+            switch (this.currentIndex)
             {
-                this.currentIndex++;
-                return false;
+                case 0:
+                    this.currentIndex++;
+                    return false;
+                case 1:
+                    this.currentIndex++;
+                    return true;
+                default:
+                    throw new NoSuchElementException();
             }
-            throw new NoSuchElementException();
         }
 
         @Override
         public boolean hasNext()
         {
-            return this.currentIndex == 0;
+            return this.currentIndex < 2;
         }
     }
 

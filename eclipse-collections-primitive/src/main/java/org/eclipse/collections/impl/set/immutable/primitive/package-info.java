@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Goldman Sachs.
+ * Copyright (c) 2022 Goldman Sachs and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompany this distribution.
@@ -9,8 +9,8 @@
  */
 
 /**
- * This package contains implementations of the mutable primitive bag interfaces.
+ * This package contains implementations of the immutable primitive set interfaces.
  * <p>
- *     A mutable primitive bag is similar to a {@link org.eclipse.collections.api.bag.MutableBag}, but is memory-optimized for primitives.
+ *     An immutable primitive set is similar to an {@link org.eclipse.collections.api.set.ImmutableSet} but is memory-optimized for primitives.
  */
-package org.eclipse.collections.impl.bag.mutable.primitive;
+package org.eclipse.collections.impl.set.immutable.primitive;

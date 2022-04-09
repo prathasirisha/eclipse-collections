@@ -30,7 +30,7 @@ public class GenerateServicesMojo extends AbstractGenerateMojo
     @Parameter(property = "templateDirectory", required = true, defaultValue = "services")
     private String templateDirectory;
 
-    @Parameter(property = "outputDirectory", defaultValue = "${project.build.directory}/generated-resources/META-INF/services", required = true)
+    @Parameter(property = "outputDirectory", defaultValue = "${project.parent.basedir}/eclipse-collections-primitive/target/generated-resources/META-INF/services", required = true)
     private File outputDirectory;
 
     @Override
