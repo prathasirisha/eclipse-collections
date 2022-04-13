@@ -34,8 +34,8 @@ Build
 -----
 The Eclipse Collections build requires below as dependencies.
 
-- Java 1.8
-- Maven 3.1.0+
+- Java 11
+- Maven 3.6.1+
 
 The Eclipse Collections build performs code generation to create primitive collections. Run the full build once before opening your IDE.
 
